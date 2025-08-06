@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Debounced Input Web Component Demo</title>
+        <script type="module" src="./src/debounced-input.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            html {
+                font-family:
+                    "Montserrat",
+                    ui-sans-serif,
+                    system-ui,
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    "Segoe UI",
+                    Roboto,
+                    "Helvetica Neue",
+                    Arial,
+                    "Noto Sans",
+                    sans-serif;
+            }
+        </style>
+    </head>
+    <body class="bg-gray-50">
+        <div
+            class="max-w-xl mx-auto mt-16 bg-white rounded-3xl shadow-2xl p-10 space-y-8 border border-gray-100"
+        >
+            <div>
+                <label
+                    for="myInput"
+                    class="block font-semibold text-gray-700 mb-3 tracking-wide text-lg"
+                >
+                    Enter some text:
+                </label>
+                <debounced-input
+                    id="myInput"
+                    delay="450"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                ></debounced-input>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                <div class="bg-blue-50 rounded-lg py-3 px-2">
+                    <div
+                        class="text-xs text-blue-800 font-semibold uppercase tracking-wider mb-1"
+                    >
+                        Current value
+                    </div>
+                    <div
+                        id="currentValue"
+                        class="font-mono text-blue-700 text-base"
+                    >
+                        (none)
+                    </div>
+                </div>
+                <div class="bg-yellow-50 rounded-lg py-3 px-2">
+                    <div
+                        class="text-xs text-yellow-800 font-semibold uppercase tracking-wider mb-1"
+                    >
+                        Last on
+                        <code class="bg-yellow-100 px-1 rounded text-xs"
+                            >input:started</code
+                        >
+                    </div>
+                    <div
+                        id="startedValue"
+                        class="font-mono text-yellow-700 text-base"
+                    >
+                        (none)
+                    </div>
+                </div>
+                <div class="bg-green-50 rounded-lg py-3 px-2">
+                    <div
+                        class="text-xs text-green-800 font-semibold uppercase tracking-wider mb-1"
+                    >
+                        Last on
+                        <code class="bg-green-100 px-1 rounded text-xs"
+                            >input:ended</code
+                        >
+                    </div>
+                    <div
+                        id="endedValue"
+                        class="font-mono text-green-700 text-base"
+                    >
+                        (none)
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span class="font-semibold text-gray-700">Event log:</span>
+                <ul
+                    id="eventLog"
+                    class="font-mono bg-gray-100 rounded-lg p-3 min-h-[2em] mt-2 text-sm space-y-1 max-h-48 overflow-y-auto border border-gray-200"
+                ></ul>
+            </div>
+            <div class="flex items-end gap-4">
+                <div class="flex-1">
+                    <label
+                        for="delayInput"
+                        class="block font-semibold text-gray-700 mb-1"
+                    >
+                        Delay (ms):
+                    </label>
+                    <input
+                        type="number"
+                        id="delayInput"
+                        value="450"
+                        min="0"
+                        step="50"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                    />
+                </div>
+            </div>
+        </div>
+        <script>
+            const input = document.getElementById("myInput");
+            const currentValue = document.getElementById("currentValue");
+            const startedValue = document.getElementById("startedValue");
+            const endedValue = document.getElementById("endedValue");
+            const delayInput = document.getElementById("delayInput");
+            const log = document.getElementById("eventLog");
+
+            function logEvent(type, value) {
+                const li = document.createElement("li");
+                li.textContent = `[${new Date().toLocaleTimeString()}] ${type}: "${value}"`;
+                log.appendChild(li);
+                log.scrollTop = log.scrollHeight;
+            }
+
+            input.addEventListener("input", (e) => {
+                currentValue.textContent = input.value || "(none)";
+            });
+
+            input.addEventListener("input:started", (e) => {
+                startedValue.textContent = e.detail.value || "(none)";
+            });
+
+            input.addEventListener("input:ended", (e) => {
+                endedValue.textContent = e.detail.value || "(none)";
+            });
+
+            input.addEventListener("change", (e) => {
+                logEvent("change (native)", input.value);
+            });
+
+            input.addEventListener("focus", (e) => {
+                logEvent("focus", input.value);
+            });
+
+            input.addEventListener("blur", (e) => {
+                logEvent("blur", input.value);
+            });
+
+            delayInput.addEventListener("input", (e) => {
+                const ms = parseInt(delayInput.value, 10);
+                if (!isNaN(ms) && ms >= 0) {
+                    input.setAttribute("delay", ms);
+                }
+            });
+        </script>
+    </body>
+</html>
