@@ -5,27 +5,8 @@
         <title>Debounced Input Web Component Demo</title>
         <script type="module" src="./src/debounced-input.js"></script>
         <script src="https://cdn.tailwindcss.com"></script>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap"
-            rel="stylesheet"
-        />
-        <style>
-            html {
-                font-family:
-                    "Montserrat",
-                    ui-sans-serif,
-                    system-ui,
-                    -apple-system,
-                    BlinkMacSystemFont,
-                    "Segoe UI",
-                    Roboto,
-                    "Helvetica Neue",
-                    Arial,
-                    "Noto Sans",
-                    sans-serif;
-            }
-        </style>
     </head>
+
     <body class="bg-gray-50">
         <div
             class="max-w-xl mx-auto mt-16 bg-white rounded-3xl shadow-2xl p-10 space-y-8 border border-gray-100"
@@ -35,15 +16,15 @@
                     for="myInput"
                     class="block font-semibold text-gray-700 mb-3 tracking-wide text-lg"
                 >
-                    Enter some text:
+                    Enter some text: s
                 </label>
                 <debounced-input
                     id="myInput"
-                    delay="450"
+                    delay="500"
                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
                 ></debounced-input>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+            <div class="space-y-4 text-center">
                 <div class="bg-blue-50 rounded-lg py-3 px-2">
                     <div
                         class="text-xs text-blue-800 font-semibold uppercase tracking-wider mb-1"
@@ -108,7 +89,7 @@
                     <input
                         type="number"
                         id="delayInput"
-                        value="450"
+                        value="500"
                         min="0"
                         step="50"
                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"

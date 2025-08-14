@@ -1,5 +1,5 @@
 {
-  "name": "webcomponent-demo",
+  "name": "debounced-text-input",
   "version": "1.0.0",
   "description": "A simple demo for a vanilla JS web component text input.",
   "main": "index.html",
@@ -7,10 +7,7 @@
     "start": "npx http-server -c-1 -p 8080"
   },
   "keywords": [
-    "webcomponent",
-    "custom-element",
-    "demo",
-    "vanilla-js"
+    "webcomponent"
   ],
   "author": "",
   "license": "MIT",
